@@ -1,95 +1,95 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "appServicePlanName": {
-            "type": "String",
-            "metadata": {
-                "description": "The name of the App Service Plan."
-            }
-        },
-        "appName": {
-            "type": "String",
-            "metadata": {
-                "description": "The name of the web app that you wish to create."
-            }
-        },
-        "skuTier": {
-            "defaultValue": "B1",
-            "allowedValues": [
-                "F1",
-                "D1",
-                "B1",
-                "B2",
-                "B3",
-                "S1",
-                "S2",
-                "S3",
-                "P1v2",
-                "P2v2",
-                "P3v2"
-            ],
-            "type": "String",
-            "metadata": {
-                "description": "The pricing tier for the App Service Plan."
-            }
-        }
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "appServicePlanName": {
+      "type": "String",
+      "metadata": {
+        "description": "The name of the App Service Plan."
+      }
     },
-    "variables": {
-        "dockerImage": "qdrant/qdrant:latest",
-        "dockerRegistry": "https://registry.hub.docker.com"
+    "appName": {
+      "type": "String",
+      "metadata": {
+        "description": "The name of the web app that you wish to create."
+      }
     },
-    "resources": [
-        {
-            "type": "Microsoft.Web/serverfarms",
-            "apiVersion": "2020-06-01",
-            "name": "[parameters('appServicePlanName')]",
-            "location": "[resourceGroup().location]",
-            "sku": {
-                "name": "[parameters('skuTier')]",
-                "capacity": 1
+    "skuTier": {
+      "defaultValue": "B1",
+      "allowedValues": [
+        "F1",
+        "D1",
+        "B1",
+        "B2",
+        "B3",
+        "S1",
+        "S2",
+        "S3",
+        "P1v2",
+        "P2v2",
+        "P3v2"
+      ],
+      "type": "String",
+      "metadata": {
+        "description": "The pricing tier for the App Service Plan."
+      }
+    }
+  },
+  "variables": {
+    "dockerImage": "qdrant/qdrant:latest",
+    "dockerRegistry": "https://registry.hub.docker.com"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2020-06-01",
+      "name": "[parameters('appServicePlanName')]",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "[parameters('skuTier')]",
+        "capacity": 1
+      },
+      "kind": "linux",
+      "properties": {
+        "name": "[parameters('appServicePlanName')]",
+        "workerSize": "0",
+        "workerSizeId": "0",
+        "numberOfWorkers": "1",
+        "reserved": true
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2020-06-01",
+      "name": "[parameters('appName')]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms/', parameters('appServicePlanName'))]"
+      ],
+      "kind": "app,linux,container",
+      "properties": {
+        "name": "[parameters('appName')]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]",
+        "siteConfig": {
+          "appSettings": [
+            {
+              "name": "DOCKER_REGISTRY_SERVER_URL",
+              "value": "[variables('dockerRegistry')]"
             },
-            "kind": "linux",
-            "properties": {
-                "name": "[parameters('appServicePlanName')]",
-                "workerSize": "0",
-                "workerSizeId": "0",
-                "numberOfWorkers": "1",
-                "reserved": true
+            {
+              "name": "WEBSITES_PORT",
+              "value": "6333"
             }
+          ],
+          "alwaysOn": true,
+          "linuxFxVersion": "[concat('DOCKER|', variables('dockerImage'))]"
         },
-        {
-            "type": "Microsoft.Web/sites",
-            "apiVersion": "2020-06-01",
-            "name": "[parameters('appName')]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms/', parameters('appServicePlanName'))]"
-            ],
-			"kind": "app,linux,container",
-            "properties": {
-                "name": "[parameters('appName')]",
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]",
-                "siteConfig": {
-                    "appSettings": [
-                        {
-                            "name": "DOCKER_REGISTRY_SERVER_URL",
-                            "value": "[variables('dockerRegistry')]"
-                        },
-                        {
-                            "name": "WEBSITES_PORT",
-                            "value": "6333"
-                        }
-                    ],
-                    "alwaysOn": true,
-                    "linuxFxVersion": "[concat('DOCKER|', variables('dockerImage'))]"
-                },
-                "authSettings": {
-                    "isEnabled": true,
-                    "unauthenticatedClientAction": "RedirectToLoginPage",
-                    "defaultProvider": "AzureActiveDirectory"
-                }
-            }
+        "authSettings": {
+          "isEnabled": true,
+          "unauthenticatedClientAction": "RedirectToLoginPage",
+          "defaultProvider": "AzureActiveDirectory"
         }
-    ]
+      }
+    }
+  ]
 }
