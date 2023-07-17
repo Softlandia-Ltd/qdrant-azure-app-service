@@ -25,3 +25,8 @@ After successful deployment, you need to enable Azure's built-in authentication:
 3. Click "Add identity provider".
 4. Use the following settings, replace "GetStartedWebApp" with your own app name:
 ![Authentication Settings](https://learn.microsoft.com/en-us/azure/app-service/media/scenario-secure-app-authentication-app-service/configure-authentication.png)
+5. See the detailed guide below for a Python example that accesses the QDrant database
+
+## Detailed Guide
+
+Link coming soon
