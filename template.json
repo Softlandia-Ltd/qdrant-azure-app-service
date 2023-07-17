@@ -66,6 +66,7 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms/', parameters('appServicePlanName'))]"
             ],
+			"kind": "app,linux,container",
             "properties": {
                 "name": "[parameters('appName')]",
                 "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]",
@@ -81,7 +82,7 @@
                         }
                     ],
                     "alwaysOn": true,
-                    "linuxFxVersion": "[variables('dockerImage')]"
+                    "linuxFxVersion": "[concat('DOCKER|', variables('dockerImage'))]"
                 },
                 "authSettings": {
                     "isEnabled": true,
