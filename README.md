@@ -29,4 +29,4 @@ After successful deployment, you need to enable Azure's built-in authentication:
 
 ## Detailed Guide
 
-Link coming soon
+Check out the [blog post with a detailed guide](https://softlandia.fi/en/blog/unlocking-qdrant-python-on-azure-a-guide-to-deployment-and-authentication)!
