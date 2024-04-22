@@ -1,4 +1,4 @@
-# Azure App Service QDrant Deployment
+# Azure App Service QDrant Deployment with Authentication (+ optional gRPC)
 
 This repository provides an Azure Resource Manager (ARM) template for deploying [QDrant](https://github.com/qdrant/qdrant), a vector similarity search engine with extended filtering support, to Azure Web App for Containers. It also demonstrates how to leverage Azure's built-in authentication for secure access to QDrant.
 
