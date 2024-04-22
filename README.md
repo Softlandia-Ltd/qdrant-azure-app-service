@@ -31,7 +31,7 @@ After successful deployment, you need to enable Azure's built-in authentication:
 
 To enable gRPC on Azure App Service, you need to add the following configuration to Configuration -> General Settings:
 
-
+![grpc](https://github.com/Softlandia-Ltd/qdrant-azure-app-service/assets/695340/ae7e8a84-641d-4453-a0f5-3211b9de64c7)
 
 To environment variables add the following:
 
@@ -45,5 +45,6 @@ WEBSITES_PORT = 6333
 Check out the blog posts for detailed guides on how to deploy QDrant to Azure App Service and access it securely: 
 
 [Part 1](https://softlandia.fi/en/blog/unlocking-qdrant-python-on-azure-a-guide-to-deployment-and-authentication)
+
 [Part 2 (gRPC, FastAPI and Async Python)]()
 
