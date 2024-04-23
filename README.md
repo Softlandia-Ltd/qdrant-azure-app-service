@@ -42,9 +42,11 @@ WEBSITES_PORT = 6333
 
 ## Running the samples & detailed guides
 
+The samples in this repository can be run by installing the dependencies and editing your instance settings to the code.
+
 Check out the blog posts for detailed guides on how to deploy QDrant to Azure App Service and access it securely: 
 
 [Part 1](https://softlandia.fi/en/blog/unlocking-qdrant-python-on-azure-a-guide-to-deployment-and-authentication)
 
-[Part 2 (gRPC, FastAPI and Async Python)]()
+[Part 2 (gRPC, FastAPI and Async Python)](https://softlandia.fi/en/blog/deploying-qdrant-with-grpc-auth-on-azure-a-fastapi-singleton-client-guide)
 
